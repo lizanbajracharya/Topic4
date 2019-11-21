@@ -2,14 +2,17 @@ package com.example.topic4;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
                     etOne.setError("Enter number");
                     return;
                 }
+                Intent intent=new Intent(MainActivity.this,AnotherActivity.class);
+                intent.putExtra("myMessage","This is my message");
+                startActivity(intent);
 
             }
         });
@@ -49,5 +55,14 @@ public class MainActivity extends AppCompatActivity {
         }
         ArrayAdapter countryadapter=new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,new ArrayList<String>(dictionary.keySet()));
         lstCountries.setAdapter(countryadapter);
+
+        lstCountries.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String country=parent.getItemAtPosition(position).toString();
+                String capital=dictionary.get(country);
+                Toast.makeText(getApplicationContext(),capital, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
